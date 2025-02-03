@@ -6,8 +6,9 @@ library(tidyverse)
 # Create new chat object ####
 # - specify model, among many -> some may require API key
 # - system prompt sets the tone for the conversation
+# - need Open AI key -> have it saved it in .Renviron
 chat <- chat_openai(
-  model = "gpt-3.5-turbo", 
+  model = "gpt-4o-turbo",
   system_prompt = "You are a friendly but terse assistant.")
 
 # USAGE ----
