@@ -1,0 +1,49 @@
+---
+title: "Chat with Chats!"
+format: html
+---
+
+
+## Testing features
+
+Learning and testing features / examples of integrating LLM to R workflows.
+
+Inspired by [YT: Harnessing LLMs for data analysis - Joe Cheng](https://www.youtube.com/watch?v=owDd1CJ17uQ&t=720s)
+
+## Quick Setup
+
+* select the model you want to use - may need API key for more advanced
+
+
+
+```{r}
+# Set up for LLM usage ----
+# load ellmer pkg for LLMs in R ----
+library(ellmer)
+library(tidyverse)
+
+# Create new chat object ####
+# - specify model, among many -> some may require API key
+# - system prompt sets the tone for the conversation
+# - need Open AI key -> have it saved it in .Renviron
+client <- chat_openai(
+  model = "gpt-4.1",
+  system_prompt = "You are a friendly but terse assistant.")
+
+# test
+client$chat("how many provinces are there in Canada?")
+```
+
+
+## Launch app window
+
+Don't have to use console for answers:
+
+
+```{r}
+# launch app window for interacting with chatbot
+# - in the viewer
+# - be careful, can be hard to close
+# - there is an 'x' but may need to use Viewer window 'x'
+live_browser(client)
+```
