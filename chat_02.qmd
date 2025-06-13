@@ -13,7 +13,7 @@ Inspired by [YT: Harnessing LLMs for data analysis - Joe Cheng](https://www.yout
 
 -   select the model you want to use - may need API key for more advanced
 
-```{r}
+```{r setup_llm}
 # Set up for LLM usage ----
 # load ellmer pkg for LLMs in R ----
 library(ellmer)
@@ -28,7 +28,7 @@ client <- chat_openai(
   system_prompt = "You are a friendly but terse assistant.")
 
 # test
-client$chat("how many provinces are there in Canada?")
+#client$chat("how many provinces are there in Canada?")
 ```
 
 ## Launch app window
@@ -39,10 +39,11 @@ Don't have to use console for answers:
 -   when it runs as Quarto doc, opens interactive browser window.
 -   Cool!
 
-```{r}
+```{r launch_bot}
 # launch app window for interacting with chatbot
-# - in the viewer
-# - be careful, can be hard to close
+# - in the viewer or may appear in local browser window
+# - prompt box will be at bottom
+# - if in viewer, may be hard to close
 # - there is an 'x' but may need to use Viewer window 'x'
 live_browser(client)
 ```

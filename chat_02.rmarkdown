@@ -12,8 +12,7 @@ Inspired by [YT: Harnessing LLMs for data analysis - Joe Cheng](https://www.yout
 
 ## Quick Setup
 
-* select the model you want to use - may need API key for more advanced
-
+-   select the model you want to use - may need API key for more advanced
 
 
 ```{r}
@@ -31,13 +30,17 @@ client <- chat_openai(
   system_prompt = "You are a friendly but terse assistant.")
 
 # test
-client$chat("how many provinces are there in Canada?")
+#client$chat("how many provinces are there in Canada?")
 ```
 
 
 ## Launch app window
 
 Don't have to use console for answers:
+
+-   when code below runs in IDE, it opens side window for conversation.
+-   when it runs as Quarto doc, opens interactive browser window.
+-   Cool!
 
 
 ```{r}
