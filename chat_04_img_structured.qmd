@@ -11,8 +11,8 @@ library(ellmer)
 library(here)
 
 # set llm client
-client <- client <- chat_openai(system_prompt=sys_prompt,
-model = "gpt-4o-mini"
+client <- client <- chat_openai(
+    model = "gpt-4o-mini"
 )
 
 # set file path for image
@@ -51,4 +51,25 @@ client$chat_structured(
     content_image_file(img_01, resize="low"),
     type = image_info
 )
+```
+
+### Multiple images
+
+* doesn't seem to work here, but no doubt possible
+
+```{r}
+img_02 <- here("IMG_4921.JPEG")
+imgs <- c(img_01, img_02)
+imgs <- img_01
+
+for(i in 1:length(imgs)) {
+    client$chat_structured(
+        "Tell me about each of these image in the specified format.",
+        content_image_file(imgs[i], resize="low"),
+        type = image_info
+        )
+    # add a pause after each llm call - doesn't help
+    Sys.sleep(20)
+}
+
 ```
