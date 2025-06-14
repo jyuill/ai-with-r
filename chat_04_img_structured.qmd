@@ -1,0 +1,54 @@
+---
+title: "Image & Structured Output with LLM"
+format: html
+---
+
+## LLM: Interpret Images
+
+```{r setup}
+# load libraries
+library(ellmer)
+library(here)
+
+# set llm client
+client <- client <- chat_openai(system_prompt=sys_prompt,
+model = "gpt-4o-mini"
+)
+
+# set file path for image
+img_01 <- here("IMG_4856.JPEG")
+```
+
+Simple example - may be limited ability, depending on model, question.
+
+```{r}
+# prompt for image info:
+client$chat(
+    "Is this an indoor or outdoor photo?",
+    content_image_file(img_01, resize="low")
+)
+```
+
+## LLM: Structured Output from Images
+
+Simple example.
+
+```{r}
+# structured info from images
+# set up json structure
+image_info = type_object(
+    subject = type_string("The main subject of the image"),
+    setting = type_string("Whether the image setting is indoors or outdoors or other observations on setting"),
+    colors = type_array("Major colors present in the image",
+        type_string()
+    )
+)
+```
+
+```{r}
+client$chat_structured(
+    "Tell me about this image in the specified format.",
+    content_image_file(img_01, resize="low"),
+    type = image_info
+)
+```

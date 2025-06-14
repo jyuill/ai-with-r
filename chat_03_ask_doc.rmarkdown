@@ -10,6 +10,7 @@ library(ellmer)
 library(pdftools)
 ```
 
+
 An experiment in using LLMs to analyze data within R environment. Using the [BC Liquor Market Report](https://www.bcldb.com/files/Liquor_Market_Review_F24_25_Q4_March_2025.pdf), a pdf document with text and tables as example.
 
 Inspired by/heavily leveraging [Harnessing LLMs for Data Analysis](https://www.youtube.com/watch?v=owDd1CJ17uQ&t=720s) YT video by Joe Cheng.
@@ -29,21 +30,26 @@ Pre-processing for this example:
 2.  For ease/economy, I used online PDF splitter to extract the page with Beer Net \$ sales table.
 3.  **Convert to markdown**: examples in the video were markdown (.md) documents - presumably because they have more machine readable structure to them. I used advice from ChatGPT to import the pdf and convert to md.
 
+
 ```{r convert_pdf}
 # uses pdftools pkg
 pdf_text <- pdf_text("LMR_Mar_2025-beer-table.pdf")
 writeLines(pdf_text, "LMR_beer.md")
 ```
 
+
 Check md version
+
 
 ```{r check_md}
 readLines("LMR_beer.md")
 ```
 
+
 ### Set up system prompt
 
 Having the right system prompt sets the context for further prompting. In this case, the **md doc is integrated** into the system prompt.
+
 
 ```{r system_prompt}
 # use markdown version of doc because easier for LLM to interpret
@@ -57,6 +63,7 @@ sys_prompt <- paste(
 )
 ```
 
+
 ### Setup LLM client function
 
 This sets the parameters for what type of model family to use, what specific model. API key will likely be needed for this:
@@ -65,18 +72,22 @@ This sets the parameters for what type of model family to use, what specific mod
 2.  Generate API key.
 3.  Paste into .Renviron file using expected variable (eg. OPENAI_API_KEY=<key>)
 
+
 ```{r llm_client_function}
 client <- chat_openai(system_prompt=sys_prompt,
 model = "gpt-4o-mini"
 )
 ```
 
+
 ### Run test prompt
+
 
 ```{r question_01}
 # disable if just using bot in browser
 #client$chat("What is the total net $ beer sales for FY2024/25 Q4?")
 ```
+
 
 ### Generate live session in browser
 
@@ -87,6 +98,7 @@ model = "gpt-4o-mini"
 ::: callout-caution
 ## warning: LLMs may not be reliable for data interpretation
 :::
+
 
 ```{r launch_bot}
 # disable until ready
