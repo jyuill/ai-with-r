@@ -11,7 +11,7 @@ library(ellmer)
 library(here)
 
 # set llm client
-client <- client <- chat_openai(
+client <- chat_openai(
     model = "gpt-4o-mini"
 )
 
