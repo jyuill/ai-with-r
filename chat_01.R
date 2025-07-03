@@ -6,7 +6,9 @@ library(tidyverse)
 # Create new chat object ####
 # - specify model, among many -> some may require API key
 # - system prompt sets the tone for the conversation
-# - need Open AI key -> have it saved it in .Renviron
+# - need API key (for Open AI in this case) -> have it saved it in .Renviron
+# USE models_open() to get list of available models
+# - models list is regularly updated, and defaults to latest, so best to specify
 client <- chat_openai(
   model = "gpt-4.1",
   system_prompt = "You are a friendly but terse assistant.")

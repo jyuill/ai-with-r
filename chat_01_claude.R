@@ -7,9 +7,11 @@ library(tidyverse)
 # Create new chat object ####
 # - specify model, among many -> some may require API key
 # - system prompt sets the tone for the conversation
-# - need Open AI key -> have it saved it in .Renviron
-client <- chat_claude(
-  model = "claude-3.5-turbo",
+# - need API key (for Anthropic in this case) -> have it saved it in .Renviron
+# USE models_anthropic() to get list of available models
+# - models list is regularly updated, and defaults to latest, so best to specify
+client <- chat_anthropic(
+  model = "claude-3-5-haiku-20241022",
   system_prompt = "You are a friendly but terse assistant.")
 
 # USAGE ----
@@ -27,6 +29,7 @@ client <- chat_claude(
 # - answers appear in console
 client$chat("What is the capital of France?")
 
+# prompt in variable
 prompto <- "What is the population of Edmonton, Canada?"
 client$chat(prompto)
 
@@ -46,8 +49,8 @@ client$last_turn()@contents[[1]]@text
 # > Programmatic ----
 # set up function to feed prompts and get response
 chat_function <- function(prompt) {
-  chat_prog <- chat_openai(
-  model = "gpt-4.1", 
+  chat_prog <- chat_anthropic(
+  model = "claude-3-5-haiku-20241022", 
   system_prompt = "You are a friendly but terse assistant.")
   chat_prog$chat(prompt)
 }
@@ -64,8 +67,8 @@ chat_results <- chat_function(prompto)
 
 # add echo = FALSE not prevent showing in console
 chat_function <- function(prompt) {
-  chat_prog <- chat_openai(
-    model = "gpt-4.1", 
+  chat_prog <- chat_anthropic(
+    model = "claude-3-5-haiku-20241022", 
     system_prompt = "You are a friendly but terse assistant.",
     echo = FALSE) # suppresses output in console if not needed
   chat_prog$chat(prompt)
@@ -79,8 +82,8 @@ chat_results
 # Numbers only ----
 # Design a function/system prompt for returning only raw numbers
 ChatNumber <- function(prompt) {
-  chat <- chat_openai(
-    model = "gpt-4.1", 
+  chat <- chat_anthropic(
+    model = "claude-3-5-haiku-20241022", 
     system_prompt = "You are a friendly but terse assistant. 
     For prompts that return a numerical or quantitative answer 
     please provide only the raw number in digits only, with no abbreviations, 
@@ -92,3 +95,47 @@ ChatNumber <- function(prompt) {
 pop_geo <- 'Germany'
 pop_prompt <- paste("What is the population of", pop_geo, "?")
 chat_results <- ChatNumber(pop_prompt)
+
+pop_geo <- 'France'
+pop_prompt <- paste("What is the population of", pop_geo, "?")
+chat_results <- ChatNumber(pop_prompt)
+
+pop_geo <- 'Italy'
+pop_prompt <- paste("What is the population of", pop_geo, "?")
+chat_results <- ChatNumber(pop_prompt)
+
+pop_geo <- 'Spain'
+pop_prompt <- paste("What is the population of", pop_geo, "?")
+chat_results <- ChatNumber(pop_prompt)
+
+# Better way to retain conversation
+
+client_n <- chat_anthropic(
+  model = "claude-3-5-haiku-20241022",
+  system_prompt = "You are a friendly but terse assistant. 
+    For prompts that return a numerical or quantitative answer 
+    please provide only the raw number in digits only, with no abbreviations, 
+    no additional text.",
+  echo = TRUE) # suppresses output in console if not needed
+
+pop_prompt <- function(pop_geo) {
+  pop_prompt <- paste("What is the population of", pop_geo, "?")
+}
+
+pop_geo <- 'Germany'
+client_n$chat(pop_prompt(pop_geo))
+
+pop_geo <- 'France'
+client_n$chat(pop_prompt(pop_geo))
+
+client_n
+client_n$last_turn()
+# shows all turns, numbered as:
+#   [[odd number]] = questions
+#   [[even number]] = answers
+client_n$get_turns()
+client_n$get_turns()[[1]]@contents[[1]]@text # question 1 prompt
+client_n$get_turns()[[2]]@text # answer to question 1
+client_n$get_turns()[[3]]@contents # second prompt with text object
+client_n$get_turns()[[4]]@contents[[1]]@text # answer to second prompt
+client_n$get_turns()[[4]]@text # answer to second prompt
