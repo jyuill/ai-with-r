@@ -17,10 +17,13 @@ library(querychat) # install if needed: pak::pak("posit-dev/querychat/pkg-r")
 # 1. CONFIGURE querychat. This is where you specify the dataset and can also
 #    add/edit options like:
 #    - greeting message
-#    - system prompt ('extra instructions')
+#    - enhance system prompt ('extra instructions')
 #    - model (uses system from ellmer)
 #    - API key if needed
 #    - data description
+#    notes on querychat_init():
+#    - comes with a thorough system prompt that establishes rules and limits for usage
+#    - leverages DuckDb for SQL queries based on data frame specified (can be seen in repo above: inst > prompt)
 querychat_config <- querychat_init(mtcars)
 
 ui <- page_sidebar(

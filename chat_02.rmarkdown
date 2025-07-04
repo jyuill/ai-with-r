@@ -49,5 +49,11 @@ Don't have to use console for answers:
 # - prompt box will be at bottom
 # - if in viewer, may be hard to close
 # - there is an 'x' but may need to use Viewer window 'x'
-live_browser(client)
+live_browser(client, quiet = TRUE)
 ```
+
+
+Although would be cooler if:
+
+* you could control additional output, such as title, instructions
+* maybe that's what app approach with querychat is for?
