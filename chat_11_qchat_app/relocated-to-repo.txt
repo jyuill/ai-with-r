@@ -1,0 +1,3 @@
+moved to new repo:
+* querychat_mtcars
+https://github.com/jyuill/querychat_mtcars.git
