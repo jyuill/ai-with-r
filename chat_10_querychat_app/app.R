@@ -36,6 +36,8 @@ server <- function(input, output, session) {
   # 3. Create a querychat object using the config from step 1.
   querychat <- querychat_server("chat", querychat_config)
 
+  
+
   output$dt <- DT::renderDT({
     # 4. Use the filtered/sorted data frame anywhere you wish, via the
     #    querychat$df() reactive.
